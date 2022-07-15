@@ -25,7 +25,7 @@
           for(let x in posts) string = `<p class="post">${posts[x]}</p>` + string
           return string
         },
-        newPost: () => document.querySelector('input[name="fodase"]').value
+        newPost: () => document.querySelector('input[name="message"]').value
       })
 
       // add new post
@@ -36,7 +36,7 @@
       // template string
       puu.template(`
         <h1>puu.js</h1>
-        <input type="text" name="fodase" placeholder="No que esta pensando?">
+        <input type="text" name="message" placeholder="No que esta pensando?">
         <button onclick="newPost()">Publicar</button>
         <div class="posts">
           {{f:listPosts}}
