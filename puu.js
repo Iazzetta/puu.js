@@ -43,6 +43,7 @@ class PuuEngine {
 class Puu {
   #root
   #context
+  #watch
   #template
   #puuengine
   #changes
@@ -50,6 +51,7 @@ class Puu {
   constructor($root){
     this.#root = $root
     this.#context = {}
+    this.#watch = {}
     this.#template = ""
     this.#puuengine = new PuuEngine();
     this.#changes = true;
@@ -60,21 +62,42 @@ class Puu {
     setInterval(() => {
       if (this.#changes) {
         this.#root.innerHTML = this.#engine()
+        this.#createEvents()
         this.#changes = false;
       }
     }, 1000 / 60)
   }
 
+  #createEvents() {
+    for (let ctx in this.#watch) {
+      this.#root.querySelector(`[puu-watch="${ctx}"]`).addEventListener('input', (ev) => {
+        this.#watch[ctx] = ev.currentTarget.value;
+        this.#changes = true;
+        setTimeout(() => {
+          this.#root.querySelector(`[puu-watch="${ctx}"]`).focus();
+          this.#root.querySelector(`[puu-watch="${ctx}"]`).selectionStart = this.#root.querySelector(`[puu-watch="${ctx}"]`).selectionEnd = 10000;
+        }, 15);
+      })
+    }
+  }
   #engine() {
     let renderedTemplate = this.#template.trim();
     const vars = this.#puuengine.get(renderedTemplate, "{{", "}}");
     for (let x in vars) {
+      let response = '';
+      if (vars[x].includes('f:')) {
+        response = this.#context[`${vars[x].replace('f:', '')}`]()
+      }
+      else if (vars[x].includes('w:')) {
+        response = this.#watch[`${vars[x].replace('w:', '')}`]
+      } else {
+        response = this.#context[vars[x]]
+      }
+
       renderedTemplate = this.#puuengine.replaceAll(
         renderedTemplate,
         `{{${vars[x]}}}`,
-        vars[x].includes('f:') ?
-          this.#context[`${vars[x].replace('f:', '')}`]() :
-          this.#context[vars[x]]
+        response
       )
     }
     return renderedTemplate;
@@ -91,6 +114,16 @@ class Puu {
       return this.#context[`${context.replace('f:', '')}`]();
     }
     return this.#context[context]
+  }
+
+  watch(context = false) {
+    Object.assign(this.#watch, context)
+    this.#changes = true
+  }
+
+  w(context = false) {
+    if (!context) return this.#watch;
+    return this.#watch[context]
   }
 
   template(template) {

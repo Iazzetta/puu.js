@@ -27,6 +27,7 @@
         },
         newPost: () => document.querySelector('input[name="message"]').value
       })
+      puu.watch({ message: '' })
 
       // add new post
       const newPost = () => {
@@ -36,8 +37,8 @@
       // template string
       puu.template(`
         <h1>puu.js</h1>
-        <input type="text" name="message" placeholder="No que esta pensando?">
-        <button onclick="newPost()">Publicar</button>
+        <input type="text" name="message" placeholder="No que esta pensando?" puu-watch="message" value="{{w:message}}">
+        <button onclick="newPost()">Publicar "{{w:message}}"</button>
         <div class="posts">
           {{f:listPosts}}
         </div>
