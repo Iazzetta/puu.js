@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>puu.js</title>
+    <link rel="stylesheet" href="puu.css">
+  </head>
+  <body>
+
+    <div id="root"></div>
+
+    <script type="text/javascript" src="puu.js"></script>
+    <script>
+      // initialize puujs
+      const puu = new Puu(document.getElementById('root'));
+
+      //create contexts
+      puu.context({
+        posts: ['oi', 'test'],
+      })
+      puu.context({
+        listPosts: () => {
+          const posts = puu.ctx('posts');
+          let string = ''
+          for(let x in posts) string = `<p class="post">${posts[x]}</p>` + string
+          return string
+        },
+        newPost: () => document.querySelector('input[name="fodase"]').value
+      })
+
+      // add new post
+      const newPost = () => {
+        puu.context({ posts: [ ... puu.ctx('posts'), puu.ctx('f:newPost')] })
+      }
+
+      // template string
+      puu.template(`
+        <h1>puu.js</h1>
+        <input type="text" name="fodase" placeholder="No que esta pensando?">
+        <button onclick="newPost()">Publicar</button>
+        <div class="posts">
+          {{f:listPosts}}
+        </div>
+      `)
+
+    </script>
+
+  </body>
+</html>
