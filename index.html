@@ -11,10 +11,10 @@
 
     <script type="text/javascript" src="puu.js"></script>
     <script>
-      // initialize puujs
+      // inicializar puu.js
       const puu = new Puu(document.getElementById('root'));
 
-      //create contexts
+      // criar contextos ( variaveis, funções, etc.)
       puu.context({
         posts: ['oi', 'test'],
       })
@@ -29,12 +29,12 @@
       })
       puu.watch({ message: '' })
 
-      // add new post
+      // chamando e atualizando contexto fora do puujs
       const newPost = () => {
         puu.context({ posts: [ ... puu.ctx('posts'), puu.ctx('f:newPost')] })
       }
 
-      // template string
+      // inicializar template
       puu.template(`
         <h1>puu.js</h1>
         <input type="text" name="message" placeholder="No que esta pensando?" puu-watch="message" value="{{w:message}}">

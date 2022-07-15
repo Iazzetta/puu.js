@@ -1,37 +1,46 @@
-## Welcome to GitHub Pages
+## puujs
 
-You can use the [editor on GitHub](https://github.com/Iazzetta/puu.js/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+framework javascript para criação de templates dinâmicos (estudos)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+- [Demo](https://iazzetta.github.io/puu.js/)
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Uso
 
-```markdown
-Syntax highlighted code block
+```javascript
+// inicializar puu.js
+const puu = new Puu(document.getElementById('root'));
 
-# Header 1
-## Header 2
-### Header 3
+// criar contextos ( variaveis, funções, etc.)
+puu.context({
+  posts: ['oi', 'test'],
+})
+puu.context({
+  listPosts: () => {
+    const posts = puu.ctx('posts');
+    let string = ''
+    for(let x in posts) string = `<p class="post">${posts[x]}</p>` + string
+    return string
+  },
+  newPost: () => document.querySelector('input[name="message"]').value
+})
+puu.watch({ message: '' })
 
-- Bulleted
-- List
+// chamando e atualizando contexto fora do puujs
+const newPost = () => {
+  puu.context({ posts: [ ... puu.ctx('posts'), puu.ctx('f:newPost')] })
+}
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+// inicializar template
+puu.template(`
+  <h1>puu.js</h1>
+  <input type="text" name="message" placeholder="No que esta pensando?" puu-watch="message" value="{{w:message}}">
+  <button onclick="newPost()">Publicar "{{w:message}}"</button>
+  <div class="posts">
+    {{f:listPosts}}
+  </div>
+`)
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Iazzetta/puu.js/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Autor
+- Guilherme L. C. Iazzetta
