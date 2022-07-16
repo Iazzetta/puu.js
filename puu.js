@@ -85,6 +85,7 @@ class Puu {
     const vars = this.#puuengine.get(renderedTemplate, "{{", "}}");
     for (let x in vars) {
       let response = '';
+      vars[x] = vars[x].trim()
       if (vars[x].includes('f:')) {
         response = this.#context[`${vars[x].replace('f:', '')}`]()
       }
@@ -93,7 +94,6 @@ class Puu {
       } else {
         response = this.#context[vars[x]]
       }
-
       renderedTemplate = this.#puuengine.replaceAll(
         renderedTemplate,
         `{{${vars[x]}}}`,
