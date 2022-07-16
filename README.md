@@ -2,7 +2,7 @@
 
 framework javascript para criação de templates dinâmicos (estudos)
 
-- [Demo](https://iazzetta.github.io/puu.js/)
+- [Demo](https://iazzetta.github.io/puu.js/example.html)
 
 
 ### Uso
