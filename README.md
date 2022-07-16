@@ -7,7 +7,7 @@ framework javascript para criação de templates dinâmicos (estudos)
 
 ### Uso
 
-``javascript
+```javascript
 // inicializar puu.js
 const puu = new Puu(document.getElementById('root'));
 
@@ -32,15 +32,15 @@ const newPost = () => {
 }
 
 // inicializar template
-puu.template(`
+puu.template('
   <h1>puu.js</h1>
   <input type="text" name="message" placeholder="No que esta pensando?" puu-watch="message" value="{{w:message}}">
   <button onclick="newPost()">Publicar "{{w:message}}"</button>
   <div class="posts">
     {{f:listPosts}}
   </div>
-`)
-``
+')
+```
 
 ## Autor
 - Guilherme L. C. Iazzetta
