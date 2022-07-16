@@ -82,7 +82,7 @@ class Puu {
   }
   #engine() {
     let renderedTemplate = this.#template.trim();
-    const vars = this.#puuengine.get(renderedTemplate, "{%", "%}");
+    const vars = this.#puuengine.get(renderedTemplate, "{{", "}}");
     for (let x in vars) {
       let response = '';
       if (vars[x].includes('f:')) {
