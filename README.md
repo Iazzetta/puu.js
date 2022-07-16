@@ -7,7 +7,7 @@ framework javascript para criação de templates dinâmicos (estudos)
 
 ### Uso
 
-```javascript
+```markdown
 // inicializar puu.js
 const puu = new Puu(document.getElementById('root'));
 
